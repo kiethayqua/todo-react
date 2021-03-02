@@ -3,6 +3,7 @@ import TaskItem from "./TaskItem";
 
 export default class TaskList extends Component {
   render() {
+    const { tasks } = this.props;
     return (
       <div className="row mt-15">
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -32,7 +33,9 @@ export default class TaskList extends Component {
               </tr>
 
               {/* Task Items */}
-              <TaskItem />
+              {tasks.map((task, index) => {
+                return <TaskItem key={task.id} task={task} index={index} />;
+              })}
             </tbody>
           </table>
         </div>
