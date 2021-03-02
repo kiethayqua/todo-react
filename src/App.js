@@ -8,6 +8,7 @@ export default class App extends Component {
     super(props);
     this.state = {
       tasks: [],
+      isDisplayForm: true,
     };
   }
 
@@ -58,6 +59,17 @@ export default class App extends Component {
     );
   };
 
+  toggleForm = () => {
+    this.setState({
+      isDisplayForm: !this.state.isDisplayForm,
+    });
+  };
+
+  closeForm = () => {
+    this.setState({
+      isDisplayForm: false,
+    });
+  };
   render() {
     return (
       <div className="container">
@@ -67,10 +79,24 @@ export default class App extends Component {
         </div>
         <div className="row">
           {/* Task Form */}
-          <TaskForm />
+          {this.state.isDisplayForm ? (
+            <TaskForm closeForm={this.closeForm} />
+          ) : (
+            ""
+          )}
 
-          <div className="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-            <button type="button" className="btn btn-primary">
+          <div
+            className={
+              this.state.isDisplayForm
+                ? "col-xs-8 col-sm-8 col-md-8 col-lg-8"
+                : "col-xs-12 col-sm-12 col-md-12 col-lg-12"
+            }
+          >
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={this.toggleForm}
+            >
               <span className="fa fa-plus mr-5"></span>Thêm Công Việc
             </button>
             <button
