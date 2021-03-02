@@ -9,6 +9,10 @@ export default class TaskItem extends Component {
     this.props.toggleStatus(this.props.task.id);
   };
 
+  showForm = () => {
+    this.props.showForm(this.props.task.id);
+  };
+
   render() {
     const { task, index } = this.props;
     return (
@@ -27,7 +31,11 @@ export default class TaskItem extends Component {
           )}
         </td>
         <td className="text-center">
-          <button type="button" className="btn btn-warning">
+          <button
+            type="button"
+            className="btn btn-warning"
+            onClick={this.showForm}
+          >
             <span className="fa fa-pencil mr-5"></span>Sửa
           </button>
           &nbsp;

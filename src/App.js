@@ -9,6 +9,7 @@ export default class App extends Component {
     this.state = {
       tasks: [],
       isDisplayForm: false,
+      dataEdit: null,
     };
   }
 
@@ -22,6 +23,7 @@ export default class App extends Component {
   toggleForm = () => {
     this.setState({
       isDisplayForm: !this.state.isDisplayForm,
+      dataEdit: null,
     });
   };
 
@@ -31,12 +33,34 @@ export default class App extends Component {
     });
   };
 
-  addTask = (task) => {
+  showForm = (id) => {
     const tasks = this.state.tasks;
-    const id = this.generateId();
-    task = { id: id, ...task };
-    tasks.push(task);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+    const dataEdit = tasks.find((item) => {
+      return item.id === id;
+    });
+
+    this.setState({
+      isDisplayForm: true,
+      dataEdit: dataEdit,
+    });
+  };
+
+  addTask = (task) => {
+    console.log(task.id);
+    const tasks = this.state.tasks;
+    if (task.id !== "") {
+      const index = tasks.findIndex((item) => {
+        return item.id === task.id;
+      });
+      tasks.splice(index, 1, task);
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    } else {
+      const id = this.generateId();
+      task.id = id;
+      tasks.push(task);
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+
     this.setState({
       tasks: tasks,
     });
@@ -45,7 +69,7 @@ export default class App extends Component {
   deleteItem = (id) => {
     const tasks = this.state.tasks;
     const index = tasks.findIndex((item) => {
-      return item.id == id;
+      return item.id === id;
     });
     tasks.splice(index, 1);
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -57,7 +81,7 @@ export default class App extends Component {
   toggleStatus = (id) => {
     const { tasks } = this.state;
     const index = tasks.findIndex((item) => {
-      return item.id == id;
+      return item.id === id;
     });
     tasks[index].status = !tasks[index].status;
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -94,7 +118,11 @@ export default class App extends Component {
         <div className="row">
           {/* Task Form */}
           {this.state.isDisplayForm ? (
-            <TaskForm closeForm={this.closeForm} addTask={this.addTask} />
+            <TaskForm
+              closeForm={this.closeForm}
+              addTask={this.addTask}
+              dataEdit={this.state.dataEdit}
+            />
           ) : (
             ""
           )}
@@ -122,6 +150,7 @@ export default class App extends Component {
               tasks={this.state.tasks}
               deleteItem={this.deleteItem}
               toggleStatus={this.toggleStatus}
+              showForm={this.showForm}
             />
           </div>
         </div>

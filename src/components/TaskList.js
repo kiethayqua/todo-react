@@ -42,6 +42,7 @@ export default class TaskList extends Component {
                         key={task.id}
                         task={task}
                         index={index}
+                        showForm={this.props.showForm}
                       />
                     );
                   })

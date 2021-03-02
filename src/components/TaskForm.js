@@ -4,9 +4,20 @@ export default class TaskForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: "",
       name: "",
       status: false,
     };
+  }
+
+  componentDidMount() {
+    if (this.props.dataEdit) {
+      this.setState({
+        id: this.props.dataEdit.id,
+        name: this.props.dataEdit.name,
+        status: this.props.dataEdit.status,
+      });
+    }
   }
 
   closeForm = () => {
@@ -47,7 +58,9 @@ export default class TaskForm extends Component {
             className="panel-heading"
             style={{ display: "flex", justifyContent: "space-between" }}
           >
-            <h3 className="panel-title">Thêm Công Việc</h3>
+            <h3 className="panel-title">
+              {this.props.dataEdit ? "Chỉnh Sửa" : "Thêm Công Việc"}
+            </h3>
             <i
               className="fa fa-times-circle"
               aria-hidden="true"
