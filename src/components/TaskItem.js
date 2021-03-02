@@ -4,6 +4,11 @@ export default class TaskItem extends Component {
   deleteItem = () => {
     this.props.deleteItem(this.props.task.id);
   };
+
+  toggleStatus = () => {
+    this.props.toggleStatus(this.props.task.id);
+  };
+
   render() {
     const { task, index } = this.props;
     return (
@@ -12,9 +17,13 @@ export default class TaskItem extends Component {
         <td>{task.name}</td>
         <td className="text-center">
           {task.status ? (
-            <span className="label label-success">Kích Hoạt</span>
+            <span className="label label-success" onClick={this.toggleStatus}>
+              Kích Hoạt
+            </span>
           ) : (
-            <span className="label label-danger">Ẩn</span>
+            <span className="label label-danger" onClick={this.toggleStatus}>
+              Ẩn
+            </span>
           )}
         </td>
         <td className="text-center">

@@ -25,34 +25,18 @@ export default class TaskForm extends Component {
 
   onSubmit = (event) => {
     event.preventDefault(); // ko refresh
-    const data = {
-      id: this.generateId(),
-      name: this.state.name,
-      status: this.state.status,
-    };
-    this.props.addTask(data);
+    this.props.addTask(this.state);
     this.setState({
       name: "",
       status: false,
     });
   };
 
-  generateString = () => {
-    return Math.floor(1 * Math.random() * 0x10000).toString();
-  };
-
-  generateId = () => {
-    return (
-      this.generateString() +
-      "-" +
-      this.generateString() +
-      this.generateString() +
-      "-" +
-      this.generateString() +
-      this.generateString() +
-      "-" +
-      this.generateString()
-    );
+  clearForm = () => {
+    this.setState({
+      name: "",
+      status: false,
+    });
   };
 
   render() {
@@ -88,6 +72,7 @@ export default class TaskForm extends Component {
                 required="required"
                 name="status"
                 onChange={this.onChange}
+                value={this.state.status}
               >
                 <option value={true}>Kích Hoạt</option>
                 <option value={false}>Ẩn</option>
@@ -98,7 +83,11 @@ export default class TaskForm extends Component {
                   Thêm
                 </button>
                 &nbsp;
-                <button type="submit" className="btn btn-danger">
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={this.clearForm}
+                >
                   Hủy Bỏ
                 </button>
               </div>

@@ -33,6 +33,8 @@ export default class App extends Component {
 
   addTask = (task) => {
     const tasks = this.state.tasks;
+    const id = this.generateId();
+    task = { id: id, ...task };
     tasks.push(task);
     localStorage.setItem("tasks", JSON.stringify(tasks));
     this.setState({
@@ -50,6 +52,36 @@ export default class App extends Component {
     this.setState({
       tasks: tasks,
     });
+  };
+
+  toggleStatus = (id) => {
+    const { tasks } = this.state;
+    const index = tasks.findIndex((item) => {
+      return item.id == id;
+    });
+    tasks[index].status = !tasks[index].status;
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    this.setState({
+      tasks: tasks,
+    });
+  };
+
+  generateString = () => {
+    return Math.floor(1 * Math.random() * 0x10000).toString();
+  };
+
+  generateId = () => {
+    return (
+      this.generateString() +
+      "-" +
+      this.generateString() +
+      this.generateString() +
+      "-" +
+      this.generateString() +
+      this.generateString() +
+      "-" +
+      this.generateString()
+    );
   };
 
   render() {
@@ -81,19 +113,16 @@ export default class App extends Component {
             >
               <span className="fa fa-plus mr-5"></span>Thêm Công Việc
             </button>
-            <button
-              type="button"
-              className="btn btn-danger"
-              onClick={this.generateData}
-            >
-              <span className="fa fa-plus mr-5"></span>Generate Data
-            </button>
 
             {/* Control */}
             <Control />
 
             {/* Task List */}
-            <TaskList tasks={this.state.tasks} deleteItem={this.deleteItem} />
+            <TaskList
+              tasks={this.state.tasks}
+              deleteItem={this.deleteItem}
+              toggleStatus={this.toggleStatus}
+            />
           </div>
         </div>
       </div>

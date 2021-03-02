@@ -37,6 +37,7 @@ export default class TaskList extends Component {
                 ? tasks.map((task, index) => {
                     return (
                       <TaskItem
+                        toggleStatus={this.props.toggleStatus}
                         deleteItem={this.props.deleteItem}
                         key={task.id}
                         task={task}
