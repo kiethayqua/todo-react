@@ -46,7 +46,6 @@ export default class App extends Component {
   };
 
   addTask = (task) => {
-    console.log(task.id);
     const tasks = this.state.tasks;
     if (task.id !== "") {
       const index = tasks.findIndex((item) => {

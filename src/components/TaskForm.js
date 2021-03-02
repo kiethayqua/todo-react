@@ -87,8 +87,8 @@ export default class TaskForm extends Component {
                 onChange={this.onChange}
                 value={this.state.status}
               >
-                <option value={true}>Kích Hoạt</option>
-                <option value={false}>Ẩn</option>
+                <option value={"true"}>Kích Hoạt</option>
+                <option value={"false"}>Ẩn</option>
               </select>
               <br />
               <div className="text-center">

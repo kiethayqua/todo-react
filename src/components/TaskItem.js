@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
 export default class TaskItem extends Component {
+  componentDidMount() {}
+
   deleteItem = () => {
     this.props.deleteItem(this.props.task.id);
   };
@@ -20,7 +22,7 @@ export default class TaskItem extends Component {
         <td>{index + 1}</td>
         <td>{task.name}</td>
         <td className="text-center">
-          {task.status ? (
+          {task.status === "true" || task.status === true ? (
             <span className="label label-success" onClick={this.toggleStatus}>
               Kích Hoạt
             </span>
