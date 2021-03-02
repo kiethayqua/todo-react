@@ -8,56 +8,16 @@ export default class App extends Component {
     super(props);
     this.state = {
       tasks: [],
-      isDisplayForm: true,
+      isDisplayForm: false,
     };
   }
 
   componentDidMount() {
-    this.setState({
-      tasks: JSON.parse(localStorage.getItem("tasks")),
-    });
+    if (localStorage.getItem("tasks"))
+      this.setState({
+        tasks: JSON.parse(localStorage.getItem("tasks")),
+      });
   }
-
-  generateData = () => {
-    const tasks = [
-      {
-        id: this.generateId(),
-        name: "Code",
-        status: true,
-      },
-      {
-        id: this.generateId(),
-        name: "Ăn",
-        status: false,
-      },
-      {
-        id: this.generateId(),
-        name: "Uống",
-        status: true,
-      },
-    ];
-
-    console.log(tasks);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  };
-
-  generateString = () => {
-    return Math.floor(1 * Math.random() * 0x10000).toString();
-  };
-
-  generateId = () => {
-    return (
-      this.generateString() +
-      "-" +
-      this.generateString() +
-      this.generateString() +
-      "-" +
-      this.generateString() +
-      this.generateString() +
-      "-" +
-      this.generateString()
-    );
-  };
 
   toggleForm = () => {
     this.setState({
@@ -70,6 +30,28 @@ export default class App extends Component {
       isDisplayForm: false,
     });
   };
+
+  addTask = (task) => {
+    const tasks = this.state.tasks;
+    tasks.push(task);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    this.setState({
+      tasks: tasks,
+    });
+  };
+
+  deleteItem = (id) => {
+    const tasks = this.state.tasks;
+    const index = tasks.findIndex((item) => {
+      return item.id == id;
+    });
+    tasks.splice(index, 1);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    this.setState({
+      tasks: tasks,
+    });
+  };
+
   render() {
     return (
       <div className="container">
@@ -80,7 +62,7 @@ export default class App extends Component {
         <div className="row">
           {/* Task Form */}
           {this.state.isDisplayForm ? (
-            <TaskForm closeForm={this.closeForm} />
+            <TaskForm closeForm={this.closeForm} addTask={this.addTask} />
           ) : (
             ""
           )}
@@ -111,7 +93,7 @@ export default class App extends Component {
             <Control />
 
             {/* Task List */}
-            <TaskList tasks={this.state.tasks} />
+            <TaskList tasks={this.state.tasks} deleteItem={this.deleteItem} />
           </div>
         </div>
       </div>

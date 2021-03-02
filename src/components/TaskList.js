@@ -33,9 +33,18 @@ export default class TaskList extends Component {
               </tr>
 
               {/* Task Items */}
-              {tasks.map((task, index) => {
-                return <TaskItem key={task.id} task={task} index={index} />;
-              })}
+              {tasks
+                ? tasks.map((task, index) => {
+                    return (
+                      <TaskItem
+                        deleteItem={this.props.deleteItem}
+                        key={task.id}
+                        task={task}
+                        index={index}
+                      />
+                    );
+                  })
+                : ""}
             </tbody>
           </table>
         </div>
