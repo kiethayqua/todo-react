@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TaskForm from "./components/TaskForm";
 import Control from "./components/Control";
 import TaskList from "./components/TaskList";
+const _ = require("lodash");
 
 export default class App extends Component {
   constructor(props) {
@@ -118,6 +119,38 @@ export default class App extends Component {
     });
   };
 
+  sortNameAZ = () => {
+    let { tasks } = this.state;
+    tasks = _.orderBy(tasks, ["name"], ["asc"]);
+    this.setState({
+      tasks: tasks,
+    });
+  };
+
+  sortNameZA = () => {
+    let { tasks } = this.state;
+    tasks = _.orderBy(tasks, ["name"], ["desc"]);
+    this.setState({
+      tasks: tasks,
+    });
+  };
+
+  sortStatusTrue = () => {
+    let { tasks } = this.state;
+    tasks = _.orderBy(tasks, ["status"], ["desc"]);
+    this.setState({
+      tasks: tasks,
+    });
+  };
+
+  sortStatusFalse = () => {
+    let { tasks } = this.state;
+    tasks = _.orderBy(tasks, ["status"], ["asc"]);
+    this.setState({
+      tasks: tasks,
+    });
+  };
+
   render() {
     let { tasks, filter } = this.state;
     console.log(filter);
@@ -138,12 +171,15 @@ export default class App extends Component {
           case 0:
             filter.status = false;
             break;
+          default:
+            break;
         }
         tasks = tasks.filter((item) => {
           return item.status.toString() === filter.status.toString();
         });
       }
     }
+
     return (
       <div className="container">
         <div className="text-center">
@@ -178,7 +214,12 @@ export default class App extends Component {
             </button>
 
             {/* Control */}
-            <Control />
+            <Control
+              sortNameAZ={this.sortNameAZ}
+              sortNameZA={this.sortNameZA}
+              sortStatusTrue={this.sortStatusTrue}
+              sortStatusFalse={this.sortStatusFalse}
+            />
 
             {/* Task List */}
             <TaskList

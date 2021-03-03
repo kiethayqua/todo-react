@@ -10,7 +10,12 @@ export default class Control extends Component {
         <Search />
 
         {/* Sort */}
-        <Sort />
+        <Sort
+          sortNameAZ={this.props.sortNameAZ}
+          sortNameZA={this.props.sortNameZA}
+          sortStatusTrue={this.props.sortStatusTrue}
+          sortStatusFalse={this.props.sortStatusFalse}
+        />
       </div>
     );
   }
