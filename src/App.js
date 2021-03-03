@@ -10,6 +10,7 @@ export default class App extends Component {
       tasks: [],
       isDisplayForm: false,
       dataEdit: null,
+      filter: { name: "", status: -1 },
     };
   }
 
@@ -107,7 +108,42 @@ export default class App extends Component {
     );
   };
 
+  filterItem = (filterName, filterStatus) => {
+    console.log(filterName + "-" + filterStatus);
+    this.setState({
+      filter: {
+        name: filterName,
+        status: filterStatus,
+      },
+    });
+  };
+
   render() {
+    let { tasks, filter } = this.state;
+    console.log(filter);
+    if (filter) {
+      if (filter.name) {
+        tasks = tasks.filter((item) => {
+          return (
+            item.name.toLowerCase().indexOf(filter.name.toLowerCase()) > -1
+          );
+        });
+      }
+
+      if (parseInt(filter.status) >= 0) {
+        switch (parseInt(filter.status)) {
+          case 1:
+            filter.status = true;
+            break;
+          case 0:
+            filter.status = false;
+            break;
+        }
+        tasks = tasks.filter((item) => {
+          return item.status.toString() === filter.status.toString();
+        });
+      }
+    }
     return (
       <div className="container">
         <div className="text-center">
@@ -146,10 +182,11 @@ export default class App extends Component {
 
             {/* Task List */}
             <TaskList
-              tasks={this.state.tasks}
+              tasks={tasks}
               deleteItem={this.deleteItem}
               toggleStatus={this.toggleStatus}
               showForm={this.showForm}
+              filterItem={this.filterItem}
             />
           </div>
         </div>
